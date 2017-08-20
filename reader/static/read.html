@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/urljs/2.3.1/url.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js"></script>
+    <title>booklist</title>
+</head>
+<body>
+<div class="curved_box">
+<pre id='content' style="white-space: pre-line;">
+</pre>
+</div>
+</body>
+<script>
+    var book = Url.queryString('book')
+    localStorage.book = book
+    bookContent = null
+    pos = 0
+    if (!localStorage.pos) {
+        localStorage.pos = {}
+    }
+    if (localStorage[book]) {
+        pos = parseInt(localStorage[book])
+    }
+    load(pos)
+    function load(pos) {
+        $.get("/book", {pos: pos, book: book}, function (resp) {
+            bookContent = resp
+            $('#content').text(bookContent)
+            localStorage[book] = pos
+            document.body.scrollTop = 0
+        })
+    }
+    $(window).keydown(function (e) {
+        if (e.keyCode == 39 || e.keyCode == 40) {
+            pos += bookContent.length
+            load(pos)
+            return false
+        } else if (e.keyCode == 37 || e.keyCode == 38) {
+            pos -= bookContent.length
+            load(pos)
+            return false
+        }
+    })
+    $(document).swipe({
+        swipeLeft: function () {
+            pos += 1000
+            load(pos)
+        },
+        swipeRight: function () {
+            pos -= 1000
+            load(pos)
+        }
+    })
+</script>
+</html>

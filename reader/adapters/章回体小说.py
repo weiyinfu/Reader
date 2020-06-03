@@ -1,5 +1,4 @@
 from reader import config, book
-from reader.adapters import util
 
 import os
 from os.path import *
@@ -33,8 +32,8 @@ authors = {
 
 def get_parts(content: str):
     a = re.finditer('\n\s*第[一二三四五六七八九十1234567890]+[章回](.+?)?\n', content)
-    splitters = util.get_pos(a)
-    s = util.split_by_pos(content, splitters)
+    splitters = book.get_pos(a)
+    s = book.split_by_pos(content, splitters)
     arts = []
     for i in s:
         art = book.get_article(i)

@@ -1,7 +1,4 @@
 from reader import book
-
-from reader.adapters import util
-
 from reader import config
 import re
 import os
@@ -13,8 +10,8 @@ folder = path.join(config.ebook, '东野圭吾')
 
 def get_parts(content: str):
     a = re.finditer('\n((\s*第[一二三四五六七八九十0123456789]+[章回场](.+?)?)|(\s*[一二三四五六七八九十0123456789]+\s*)|(\n.+?之章\s+[[一二三四五六七八九十]+\n))\n', content)
-    splitters = util.get_pos(a)
-    s = util.split_by_pos(content, splitters)
+    splitters = book.get_pos(a)
+    s = book.split_by_pos(content, splitters)
     arts = []
     for i in s:
         art = book.get_article(i)

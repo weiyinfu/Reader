@@ -5,6 +5,9 @@ import os
 from reader import config, book
 import re
 
+"""
+毛泽东文集是一个MARKDOWN格式的repo
+"""
 folder = path.join(config.ebook, '毛泽东文集/src')
 
 arts = []

@@ -4,10 +4,12 @@ from os import path
 
 from reader import book
 from reader import config
-from reader.adapters import util
 from reader.log import logger
 
 folder = path.join(config.ebook, '金庸/金庸全集三联版')
+"""
+金庸小说：越女剑、鸳鸯刀比较简短
+"""
 
 
 def split_book(content: str):
@@ -15,12 +17,12 @@ def split_book(content: str):
     beg = re.search('后记\s*\n', content).start()
     main = content[:beg]
     res = re.finditer("第[1234567890一二三四五六七八九十]+[章回]\s+.+?\n", main)
-    splitters = util.get_pos(res)
+    splitters = book.get_pos(res)
     if not splitters:
         res = re.finditer("[一二三四五六七八九十零]+\s.*?\n", main)
-        splitters = util.get_pos(res)
+        splitters = book.get_pos(res)
     splitters.append(beg)
-    return util.split_by_pos(content, splitters)
+    return book.split_by_pos(content, splitters)
 
 
 def parse_folder():

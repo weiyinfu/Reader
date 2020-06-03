@@ -1,0 +1,43 @@
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>booklist</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .book {
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+<div id="app">
+  <div class="book" v-for="book in books">
+    <a :href="'book.html?book='+book.name">{{book.name}}</a><span class="author">{{book.author}}</span><span class="tag"
+                                                                                                             v-for="tag in book.tags">{{tag}}</span>
+  </div>
+</div>
+</body>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      books: []
+    },
+    mounted() {
+      axios.get("index.json").then(resp => {
+        this.books = resp.data;
+      })
+    },
+    methods: {}
+  })
+</script>
+</html>

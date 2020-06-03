@@ -1,0 +1,84 @@
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>booklist</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+  <style>
+
+    .part {
+      font-weight: lighter;
+      font-size: 20px;
+    }
+
+    .article {
+      margin: 20px;
+    }
+
+    .tags {
+
+    }
+
+    .author {
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    .tag {
+      border-radius: 10px;
+      background: #fDf6f8;
+      padding: 5px;
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <a href="index.html">回首页</a>
+  <h1>{{book.name}}</h1>
+  <span class="author">{{book.author}}</span>
+  <span class="tag" v-for="tag in book.tags">{{tag}}</span>
+  <div class="part" v-for='part in book.parts'>
+    {{part.name}}
+    <div class="article" v-for="article in part.articles">
+      <a :href="'read.html?article='+article.content+'&book='+book.name+'&name='+article.name">{{article.name}}</a>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+  const app = new Vue({
+    el: "#app",
+    data() {
+      return {
+        book: {},
+        books: [],
+      }
+    },
+    mounted() {
+      const q = location.search.slice(1)
+      const pairs = q.split("&").map(x => x.split('='))
+      const a = {}
+      for (let i of pairs) {
+        if (i.length === 1) {
+          a[i[0]] = true
+        } else {
+          a[i[0]] = decodeURIComponent(i[1]);
+        }
+      }
+      const bookName = a.book;
+      document.title = bookName;
+      axios.get("index.json").then(resp => {
+        const books = resp.data;
+        this.books = books;
+        for (let book of books) {
+          if (book.name === bookName) {
+            this.book = book;
+            break;
+          }
+        }
+      })
+    }
+  })
+</script>
+</html>

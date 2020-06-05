@@ -8,7 +8,7 @@ from reader.log import logger
 folder = join(config.ebook, '网络小说')
 novels = []
 novels.extend([join(folder, i) for i in os.listdir(folder)])
-folder = join(config.ebook, '四大名著')
+folder = join(config.ebook, '四大名著/src')
 novels.extend([join(folder, i) for i in os.listdir(folder)])
 folder = join(config.ebook, '茅盾文学奖')
 novels.extend([join(folder, i) for i in os.listdir(folder)])
@@ -22,6 +22,7 @@ authors = {
     '斗罗大陆2': ('唐家三少', ['网络小说', '当代']),
     '斗罗大陆4终极斗罗': ('唐家三少', ['网络小说', '当代']),
     '水浒传': ('施耐庵', ['四大名著', '古典文学']),
+    '水浒全传': ('施耐庵', ['四大名著', '古典文学']),
     '三国演义': ('罗贯中', ['四大名著', '古典文学']),
     '红楼梦': ('曹雪芹', ['四大名著', '古典文学']),
     '西游记': ('吴承恩', ['四大名著', '古典文学']),
@@ -43,12 +44,13 @@ def get_parts(content: str):
     return [p]
 
 
-for i in os.listdir(folder):
+for filepath in novels:
     b = book.Book()
-    b.name = i[:i.index('.')]
+    filename = basename(filepath)
+    b.name = filename[:filename.index('.')]
     b.author, b.tags = authors[b.name]
     logger.info(b.name)
-    b.parts = get_parts(open(join(folder, i)).read())
+    b.parts = get_parts(open(filepath).read())
     books.append(b)
 
 if __name__ == '__main__':

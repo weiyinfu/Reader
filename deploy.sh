@@ -1,0 +1,1 @@
+rsync -r --progress book.db front reader  tencent:/home/ubuntu/app/Reader/

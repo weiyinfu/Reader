@@ -52,6 +52,14 @@
 </div>
 </body>
 <script>
+  function wrapUrl(url) {
+    const app = "/Reader/"
+    if (location.pathname.startsWith(app) && url.startsWith('/api')) {
+      return app + url.slice(1);
+    }
+    return url;
+  }
+
   const app = new Vue({
     el: "#app",
     data() {
@@ -92,7 +100,8 @@
       }
       const article = a.article;
       document.title = `【${a.book}】${a.name}`;
-      axios.get("/api/get_article", {
+
+      axios.get(wrapUrl("/api/get_article"), {
         params: {
           article: article,
         }

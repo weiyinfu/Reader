@@ -1,0 +1,15 @@
+__pycache__/
+*.db
+ebook/
+.idea/
+*.iml
+front/node_modules
+./index.json
+node_modules/
+.pynb_checkpoints
+.vscode/
+.DS_Store
+reader/gen
+*.lock
+yarn.lock
+package-lock.json
